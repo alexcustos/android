@@ -299,7 +299,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
                 SyncedFolderDisplayItem syncedFolderDisplayItem = syncFolderItems.get(i);
                 if (syncedFolderDisplayItem.getLocalPath().equalsIgnoreCase(path) &&
                         syncedFolderDisplayItem.getType().getId().equals(type)) {
-                    mRecyclerView.getLayoutManager().scrollToPosition(i);
                     onSyncFolderSettingsClick(1, syncedFolderDisplayItem);
                 }
             }
