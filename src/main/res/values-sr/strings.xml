@@ -635,7 +635,7 @@
     <string name="contacts_preferences_import_scheduled">Увожење је заказано и почеће ускоро</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Примљено ново обавештење</string>
+
     <string name="drawer_logout">Одјава</string>
     <string name="picture_set_as_no_app">Ниједна апликација није нађена да се са њом постави слика</string>
     <string name="privacy">Приватност</string>

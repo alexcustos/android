@@ -552,7 +552,7 @@
     <string name="contacts_preferences_import_scheduled">Import je naplánován a brzy začne</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Přijato nové upozornění</string>
+
     <string name="drawer_logout">Odhlásit se</string>
     <string name="privacy">Soukromí</string>
     <!-- Auto upload -->

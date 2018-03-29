@@ -631,7 +631,7 @@
     <string name="contacts_preferences_import_scheduled">Importazione pianificata e partirà a breve</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Nuova notifica ricevuta</string>
+
     <string name="drawer_logout">Esci</string>
     <string name="picture_set_as_no_app">Nessuna applicazione trovata per impostare un\'immagine</string>
     <string name="privacy">Riservatezza</string>

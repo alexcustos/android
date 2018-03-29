@@ -633,7 +633,7 @@ hozzáadások, változások és megosztások</string>
     <string name="contacts_preferences_import_scheduled">Importálás ütemezve és hamarosan indul</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Új értesítés</string>
+
     <string name="drawer_logout">Kijelentkezés</string>
     <string name="picture_set_as_no_app">Nincs alkalmazás a képbeállításhoz</string>
     <string name="privacy">Titoktartás</string>

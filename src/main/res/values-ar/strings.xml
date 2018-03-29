@@ -415,7 +415,7 @@
     <string name="contacts_preference_choose_date">أختر التاريخ</string>
     <string name="contacts_preferences_no_file_found">لم يتم ايجاد أي ملف</string>
     <!-- Notifications -->
-    <string name="new_notification_received">لقد تلقيت إخطارا جديدا</string>
+
     <string name="drawer_logout">الخروج</string>
     <string name="privacy">الخصوصية</string>
     <string name="file_not_found">تعذر العثور على الملف</string>

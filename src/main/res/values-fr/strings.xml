@@ -634,7 +634,7 @@ Veuillez contacter votre administrateur</string>
     <string name="contacts_preferences_import_scheduled">L\'import est planifié et va démarrer</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Vous avez reçu une nouvelle notification</string>
+
     <string name="drawer_logout">Déconnexion</string>
     <string name="picture_set_as_no_app">Aucune application trouvée pour utiliser cette image</string>
     <string name="privacy">Vie privée</string>

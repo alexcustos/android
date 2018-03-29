@@ -640,7 +640,7 @@
     <string name="contacts_preferences_import_scheduled">Импорт запланирован и скоро начнётся</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Получено новое уведомление</string>
+
     <string name="drawer_logout">Выйти</string>
     <string name="picture_set_as_no_app">Не найдено приложений для обработки изображений</string>
     <string name="privacy">Конфиденциальность</string>

@@ -630,7 +630,7 @@
     <string name="contacts_preferences_import_scheduled">Importación programada. Comenzará en breve</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Nueva notificación recibida</string>
+
     <string name="drawer_logout">Cerrar sersión</string>
     <string name="picture_set_as_no_app">No se ha encontrado una app para establecer con ella la imagen</string>
     <string name="privacy">Privacidad</string>

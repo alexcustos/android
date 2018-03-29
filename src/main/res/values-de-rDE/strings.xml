@@ -631,7 +631,7 @@
     <string name="contacts_preferences_import_scheduled">Import geplant und wird in Kürze starten</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Neue Benachrichtigung erhalten</string>
+
     <string name="drawer_logout">Abmelden</string>
     <string name="picture_set_as_no_app">Keine App gefunden, mit der ein Bid gesetzt werden könnte</string>
     <string name="privacy">Datenschutz</string>
