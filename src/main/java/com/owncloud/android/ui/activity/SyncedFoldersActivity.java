@@ -37,6 +37,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,8 @@ import com.owncloud.android.datamodel.SyncedFolder;
 import com.owncloud.android.datamodel.SyncedFolderDisplayItem;
 import com.owncloud.android.datamodel.SyncedFolderProvider;
 import com.owncloud.android.files.services.FileUploader;
+import com.owncloud.android.jobs.MediaFoldersDetectionJob;
+import com.owncloud.android.jobs.NotificationJob;
 import com.owncloud.android.ui.adapter.SyncedFolderAdapter;
 import com.owncloud.android.ui.decoration.MediaGridItemDecoration;
 import com.owncloud.android.ui.dialog.SyncedFolderPreferencesDialogFragment;
@@ -86,10 +89,9 @@ import static com.owncloud.android.datamodel.SyncedFolderDisplayItem.UNPERSISTED
 public class SyncedFoldersActivity extends FileActivity implements SyncedFolderAdapter.ClickListener,
         SyncedFolderPreferencesDialogFragment.OnSyncedFolderPreferenceListener {
 
-    private static final String SYNCED_FOLDER_PREFERENCES_DIALOG_TAG = "SYNCED_FOLDER_PREFERENCES_DIALOG";
-    public static final String[] PRIORITIZED_FOLDERS = new String[] { "Camera", "Screenshots" };
+    public static final String[] PRIORITIZED_FOLDERS = new String[]{"Camera", "Screenshots"};
     public static final String EXTRA_SHOW_SIDEBAR = "SHOW_SIDEBAR";
-
+    private static final String SYNCED_FOLDER_PREFERENCES_DIALOG_TAG = "SYNCED_FOLDER_PREFERENCES_DIALOG";
     private static final String SCREEN_NAME = "Auto upload";
 
     private static final String TAG = SyncedFoldersActivity.class.getSimpleName();
@@ -103,6 +105,56 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
     private boolean showSidebar = true;
     private RelativeLayout mCustomFolderRelativeLayout;
 
+    private String path;
+    private int type;
+    /**
+     * Sorts list of {@link SyncedFolderDisplayItem}s.
+     *
+     * @param syncFolderItemList list of items to be sorted
+     * @return sorted list of items
+     */
+    public static List<SyncedFolderDisplayItem> sortSyncedFolderItems(List<SyncedFolderDisplayItem>
+                                                                              syncFolderItemList) {
+        Collections.sort(syncFolderItemList, new Comparator<SyncedFolderDisplayItem>() {
+            public int compare(SyncedFolderDisplayItem f1, SyncedFolderDisplayItem f2) {
+                if (f1 == null && f2 == null) {
+                    return 0;
+                } else if (f1 == null) {
+                    return -1;
+                } else if (f2 == null) {
+                    return 1;
+                } else if (f1.isEnabled() && f2.isEnabled()) {
+                    return f1.getFolderName().toLowerCase(Locale.getDefault()).compareTo(
+                            f2.getFolderName().toLowerCase(Locale.getDefault()));
+                } else if (f1.isEnabled()) {
+                    return -1;
+                } else if (f2.isEnabled()) {
+                    return 1;
+                } else if (f1.getFolderName() == null && f2.getFolderName() == null) {
+                    return 0;
+                } else if (f1.getFolderName() == null) {
+                    return -1;
+                } else if (f2.getFolderName() == null) {
+                    return 1;
+                }
+                for (String folder : PRIORITIZED_FOLDERS) {
+                    if (folder.equals(f1.getFolderName()) &&
+                            folder.equals(f2.getFolderName())) {
+                        return 0;
+                    } else if (folder.equals(f1.getFolderName())) {
+                        return -1;
+                    } else if (folder.equals(f2.getFolderName())) {
+                        return 1;
+                    }
+                }
+                return f1.getFolderName().toLowerCase(Locale.getDefault()).compareTo(
+                        f2.getFolderName().toLowerCase(Locale.getDefault()));
+            }
+        });
+
+        return syncFolderItemList;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +164,20 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         }
 
         setContentView(R.layout.synced_folders_layout);
+
+        String account;
+        Account currentAccount;
+        if (getIntent() != null && getIntent().getExtras() != null) {
+            if ((account = getIntent().getExtras().getString(NotificationJob.KEY_NOTIFICATION_ACCOUNT)) != null &&
+                    (currentAccount = AccountUtils.getCurrentOwnCloudAccount(getApplicationContext())) != null &&
+                    !account.equalsIgnoreCase(currentAccount.name)) {
+                AccountUtils.setCurrentOwnCloudAccount(getApplicationContext(), account);
+                setAccount(AccountUtils.getCurrentOwnCloudAccount(this));
+            }
+
+            path = getIntent().getStringExtra(MediaFoldersDetectionJob.KEY_MEDIA_FOLDER_PATH);
+            type = getIntent().getIntExtra(MediaFoldersDetectionJob.KEY_MEDIA_FOLDER_TYPE, -1);
+        }
 
         // setup toolbar
         setupToolbar();
@@ -208,9 +274,9 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         }
         setListShown(false);
         final List<MediaFolder> mediaFolders = MediaProvider.getImageFolders(getContentResolver(),
-                perFolderMediaItemLimit, SyncedFoldersActivity.this);
+                perFolderMediaItemLimit, SyncedFoldersActivity.this, false);
         mediaFolders.addAll(MediaProvider.getVideoFolders(getContentResolver(), perFolderMediaItemLimit,
-                SyncedFoldersActivity.this));
+                SyncedFoldersActivity.this, false));
 
         List<SyncedFolder> syncedFolderArrayList = mSyncedFolderProvider.getSyncedFolders();
         List<SyncedFolder> currentAccountSyncedFoldersList = new ArrayList<>();
@@ -227,6 +293,16 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         mAdapter.setSyncFolderItems(syncFolderItems);
         mAdapter.notifyDataSetChanged();
         setListShown(true);
+
+        if (!TextUtils.isEmpty(path)) {
+            for (int i = 0; i < syncFolderItems.size(); i++) {
+                SyncedFolderDisplayItem syncedFolderDisplayItem = syncFolderItems.get(i);
+                if (syncedFolderDisplayItem.getLocalPath().equalsIgnoreCase(path) &&
+                        syncedFolderDisplayItem.getType().getId().equals(type)) {
+                    onSyncFolderSettingsClick(1, syncedFolderDisplayItem);
+                }
+            }
+        }
     }
 
     /**
@@ -243,9 +319,9 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         List<SyncedFolderDisplayItem> result = new ArrayList<>();
 
         for (MediaFolder mediaFolder : mediaFolders) {
-            if (syncedFoldersMap.containsKey(mediaFolder.absolutePath+"-"+mediaFolder.type)) {
-                SyncedFolder syncedFolder = syncedFoldersMap.get(mediaFolder.absolutePath+"-"+mediaFolder.type);
-                syncedFoldersMap.remove(mediaFolder.absolutePath+"-"+mediaFolder.type);
+            if (syncedFoldersMap.containsKey(mediaFolder.absolutePath + "-" + mediaFolder.type)) {
+                SyncedFolder syncedFolder = syncedFoldersMap.get(mediaFolder.absolutePath + "-" + mediaFolder.type);
+                syncedFoldersMap.remove(mediaFolder.absolutePath + "-" + mediaFolder.type);
 
                 if (MediaFolderType.CUSTOM == syncedFolder.getType()) {
                     result.add(createSyncedFolderWithoutMediaFolder(syncedFolder));
@@ -262,54 +338,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         }
 
         return result;
-    }
-
-    /**
-     * Sorts list of {@link SyncedFolderDisplayItem}s.
-     *
-     * @param syncFolderItemList list of items to be sorted
-     * @return sorted list of items
-     */
-    public static List<SyncedFolderDisplayItem> sortSyncedFolderItems(List<SyncedFolderDisplayItem>
-                                                                              syncFolderItemList) {
-        Collections.sort(syncFolderItemList, new Comparator<SyncedFolderDisplayItem>() {
-            public int compare(SyncedFolderDisplayItem f1, SyncedFolderDisplayItem f2) {
-                if (f1 == null && f2 == null) {
-                    return 0;
-                } else if (f1 == null) {
-                    return -1;
-                } else if (f2 == null) {
-                    return 1;
-                } else if (f1.isEnabled() && f2.isEnabled()) {
-                    return f1.getFolderName().toLowerCase(Locale.getDefault()).compareTo(
-                            f2.getFolderName().toLowerCase(Locale.getDefault()));
-                } else if (f1.isEnabled()) {
-                    return -1;
-                } else if (f2.isEnabled()) {
-                    return 1;
-                } else if (f1.getFolderName() == null && f2.getFolderName() == null) {
-                    return 0;
-                } else if (f1.getFolderName() == null) {
-                    return -1;
-                } else if (f2.getFolderName() == null) {
-                    return 1;
-                }
-                for (String folder : PRIORITIZED_FOLDERS) {
-                    if (folder.equals(f1.getFolderName()) &&
-                            folder.equals(f2.getFolderName())) {
-                        return 0;
-                    } else if (folder.equals(f1.getFolderName())) {
-                        return -1;
-                    } else if (folder.equals(f2.getFolderName())) {
-                        return 1;
-                    }
-                }
-                return f1.getFolderName().toLowerCase(Locale.getDefault()).compareTo(
-                            f2.getFolderName().toLowerCase(Locale.getDefault()));
-            }
-        });
-
-        return syncFolderItemList;
     }
 
     @NonNull
@@ -429,7 +457,7 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
         Map<String, SyncedFolder> result = new HashMap<>();
         if (syncFolders != null) {
             for (SyncedFolder syncFolder : syncFolders) {
-                result.put(syncFolder.getLocalPath()+"-"+syncFolder.getType(), syncFolder);
+                result.put(syncFolder.getLocalPath() + "-" + syncFolder.getType(), syncFolder);
             }
         }
         return result;
@@ -510,8 +538,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
             String syncedFolderInitiatedKey = "syncedFolderIntitiated_" + syncedFolderDisplayItem.getId();
             arbitraryDataProvider.deleteKeyForAccount("global", syncedFolderInitiatedKey);
         }
-        FilesSyncHelper.scheduleNJobs(false, getApplicationContext());
-
     }
 
     @Override
@@ -531,12 +557,12 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
                 && resultCode == RESULT_OK && mSyncedFolderPreferencesDialogFragment != null) {
             OCFile chosenFolder = data.getParcelableExtra(FolderPickerActivity.EXTRA_FOLDER);
             mSyncedFolderPreferencesDialogFragment.setRemoteFolderSummary(chosenFolder.getRemotePath());
-        } if (requestCode == SyncedFolderPreferencesDialogFragment.REQUEST_CODE__SELECT_LOCAL_FOLDER
+        }
+        if (requestCode == SyncedFolderPreferencesDialogFragment.REQUEST_CODE__SELECT_LOCAL_FOLDER
                 && resultCode == RESULT_OK && mSyncedFolderPreferencesDialogFragment != null) {
             String localPath = data.getStringExtra(UploadFilesActivity.EXTRA_CHOSEN_FILES);
             mSyncedFolderPreferencesDialogFragment.setLocalFolderSummary(localPath);
-        }
-        else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -563,7 +589,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
                     String syncedFolderInitiatedKey = "syncedFolderIntitiated_" + newCustomFolder.getId();
                     arbitraryDataProvider.deleteKeyForAccount("global", syncedFolderInitiatedKey);
                 }
-                FilesSyncHelper.scheduleNJobs(false, getApplicationContext());
             }
             mAdapter.addSyncFolderItem(newCustomFolder);
         } else {
@@ -583,7 +608,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
                         String syncedFolderInitiatedKey = "syncedFolderIntitiated_" + item.getId();
                         arbitraryDataProvider.deleteKeyForAccount("global", syncedFolderInitiatedKey);
                     }
-                    FilesSyncHelper.scheduleNJobs(false, getApplicationContext());
                 }
             } else {
                 // existing synced folder setup to be updated
@@ -594,7 +618,6 @@ public class SyncedFoldersActivity extends FileActivity implements SyncedFolderA
                     String syncedFolderInitiatedKey = "syncedFolderIntitiated_" + item.getId();
                     arbitraryDataProvider.deleteKeyForAccount("global", syncedFolderInitiatedKey);
                 }
-                FilesSyncHelper.scheduleNJobs(false, getApplicationContext());
             }
 
             mAdapter.setSyncFolderItem(syncedFolder.getSection(), item);

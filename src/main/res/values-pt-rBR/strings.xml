@@ -631,7 +631,7 @@
     <string name="contacts_preferences_import_scheduled">Importação agendada, irá iniciar em breve</string>
 
     <!-- Notifications -->
-    <string name="new_notification_received">Nova notificação recebida</string>
+
     <string name="drawer_logout">Sair</string>
     <string name="picture_set_as_no_app">Nenhum aplicativo encontrado para definir uma imagem</string>
     <string name="privacy">Privacidade</string>
