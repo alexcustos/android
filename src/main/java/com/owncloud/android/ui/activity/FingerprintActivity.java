@@ -81,7 +81,7 @@ public class FingerprintActivity extends AppCompatActivity {
 
     private KeyStore keyStore;
     // Variable used for storing the key in the Android Keystore container
-    private static final String KEY_NAME = "Nextcloud";
+    private static final String KEY_NAME = "Lawless";
     private Cipher cipher;
 
     private CancellationSignal cancellationSignal;

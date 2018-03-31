@@ -85,6 +85,7 @@ public abstract class ToolbarActivity extends BaseActivity {
      * Updates title bar and home buttons (state and icon).
      */
     protected void updateActionBarTitleAndHomeButton(OCFile chosenFile) {
+        // NOTE: it retrieves title form the server instance
         String title = ThemeUtils.getDefaultDisplayNameForRootFolder();    // default
         boolean inRoot;
 
