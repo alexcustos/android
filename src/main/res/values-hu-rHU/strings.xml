@@ -683,11 +683,11 @@ Szolgáltatások:
 * Biztonságosa adatelérés PIN vagy ujjlenyomat segítségével
 * Kapcsolódás a DAVdroiddal a naptár és névjegy szinkronizálás megkönnyítésére
 
-Kérjük jelents minden hibát a https://github.com/nextcloud/android/issues címen és beszélgess az appról itt: https://help.nextcloud.com/c/clients/android
+Kérjük jelents minden hibát a https://github.com/lawless/android/issues címen és beszélgess az appról itt: https://help.lawless.cloud/c/clients/android
 
 Új neked a Lawless? A Lawless egy privát fájl szinkronizáló, megosztó és kommunikációs szerver. Teljesen nyílt forrású, melyet magad is futtathatsz, vagy fizethetsz más cégeknek, hogy megtegyék neked. Segítségével teljesen ura lehetsz saját képeidnek, naptáradnak, kapcsolataidnak, fájljaidnak és minden egyebednek.
 
-A Lawless itt érhető el: https://nextcloud.com</string>
+A Lawless itt érhető el: https://lawless.cloud</string>
 
     <string name="drawer_current_account">Jelenlegi fiók</string>
     <string name="drawer_middle_account">Középső fiók</string>

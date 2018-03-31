@@ -679,11 +679,11 @@ Egenskaper:
 * Støtte for flere brukerkonti
 * Sikker tilgang til din data med fingeravtrykk eller PIN
 * Integrasjon med DAVdroid for enkelt oppsett av kalender og kontakt -synkronisering.
-Meld inn alle problemer til https://github.com/nextcloud/android/issues og diskuter programmet på https://help.nextcloud.com/c/clients/android
+Meld inn alle problemer til https://github.com/lawless/android/issues og diskuter programmet på https://help.lawless.cloud/c/clients/android
 
 Ny med Lawless? Lawless er en privat filtjener for synkronisering og deling. Den er helt fri kildekode og du kan drifte den selv, eller betale noen for å gjøre det for deg. På denne måten har du kontroll på dine bilder, kalender, kontakter, dokumenter og alt annet.
 
-Sjekk ut Lawless på https://nextcloud.com</string>
+Sjekk ut Lawless på https://lawless.cloud</string>
 
     <string name="drawer_current_account">Nåværende konto</string>
     <string name="drawer_middle_account">Mellomkonto</string>
