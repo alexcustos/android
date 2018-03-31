@@ -450,8 +450,8 @@ public class MainApp extends MultiDexApplication {
     }
 
     public static String getNextcloudUserAgent() {
-        // Mozilla/5.0 (Android) Nextcloud-android/2.1.0
-        return getUserAgent(R.string.nextcloud_user_agent);
+        // Mozilla/5.0 (Android) Lawless-android/2.1.0
+        return getUserAgent(R.string.lawless_user_agent);
     }
 
     // user agent

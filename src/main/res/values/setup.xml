@@ -19,7 +19,8 @@
     <string name="log_name">lawless</string>
     <string name="default_display_name_for_root_folder">Lawless</string>
     <string name="user_agent">Mozilla/5.0 (Android) ownCloud-android/%1$s</string>
-    <string name="nextcloud_user_agent">Mozilla/5.0 (Android) Lawless-android/%1$s</string>
+    <!--NOTE: Nextcloud server checks User-Agent and don't work with an arbitrary one -->
+    <string name="lawless_user_agent">Mozilla/5.0 (Android) Nextcloud-android/%1$s</string>
     
     <!-- URLs and flags related -->
     <string name="server_url"></string>
@@ -51,11 +52,11 @@
     <array name="whatsnew_urls"></array>
 
     <!-- Colors -->
-    <color name="primary">#0082c9</color>
-    <color name="primary_dark">#006AA3</color>
-    <color name="color_accent">#007CC2</color>
+    <color name="primary">#313131</color><!--0082c9-->
+    <color name="primary_dark">#2d2d2d</color><!--006AA3-->
+    <color name="color_accent">#2f2f2f</color><!--007CC2-->
     <color name="login_text_color">@color/white</color>
-    <color name="login_text_hint_color">#7fC0E3</color>
+    <color name="login_text_hint_color">#afafaf</color><!--7fC0E3-->
     <color name="background_color">#FFFFFF</color>
     <color name="primary_button_background_color">@color/color_accent</color>
     <color name="primary_button_text_color">@color/white</color>
