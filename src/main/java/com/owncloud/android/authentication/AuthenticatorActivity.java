@@ -212,7 +212,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
     private TextView mServerStatusView;
 
     private TextWatcher mHostUrlInputWatcher;
-    private String mServerStatusText;
+    private String mServerStatusText = "";
     private int mServerStatusIcon = 0;
 
     private boolean mServerIsChecked = false;
@@ -233,7 +233,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
 
     private WebView mLoginWebView;
 
-    private String mAuthStatusText;
+    private String mAuthStatusText = "";
     private int mAuthStatusIcon = 0;
 
     private String mAuthToken = "";
@@ -253,7 +253,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
     private String webViewPassword;
     private TextInputLayout mUsernameInputLayout;
     private TextInputLayout mPasswordInputLayout;
-    private boolean forceOldLoginMethod = false;
+    private boolean forceOldLoginMethod = false; // NOTE: true to enforce old login method
 
     /**
      * {@inheritDoc}
@@ -1707,7 +1707,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
             // Reset webView
             webViewPassword = null;
             webViewUser = null;
-            forceOldLoginMethod = false;
+            forceOldLoginMethod = false; // NOTE: true to enforce old login method
             deleteCookies();
 
             if (success) {
@@ -1977,7 +1977,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity
      * to the last check on the ownCloud server.
      */
     private void showServerStatus() {
-        if (mServerStatusIcon == 0 && "".equals(mServerStatusText) || forceOldLoginMethod) {
+        if (mServerStatusIcon == 0 && "".equals(mServerStatusText)) {
             mServerStatusView.setVisibility(View.INVISIBLE);
         } else {
             mServerStatusView.setText(mServerStatusText);
