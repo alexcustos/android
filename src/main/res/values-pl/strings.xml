@@ -79,7 +79,7 @@
     <string name="uploader_error_message_source_file_not_found">Wybrany plik nie został znaleziony. Proszę sprawdzić czy plik istnieje.</string>
     <string name="uploader_error_message_source_file_not_copied">Nie udało się skopiować pliku do folderu tymczasowego. Spróbuj ponownie.</string>
     <string name="uploader_upload_files_behaviour">Opcja wysłania:</string>
-    <string name="uploader_upload_files_behaviour_move_to_nextcloud_folder">Przenieś plik do folderu Nextcloud</string>
+    <string name="uploader_upload_files_behaviour_move_to_nextcloud_folder">Przenieś plik do folderu Lawless</string>
     <string name="uploader_upload_files_behaviour_only_upload">Zachowaj plik w katalogu źródłowym</string>
     <string name="uploader_upload_files_behaviour_upload_and_delete_from_source">Skasuj plik z katalogu źródłowego</string>
     <string name="file_list_seconds_ago">sekund temu</string>
@@ -603,7 +603,7 @@ Przycisk wysyłania elementu</string>
     <string name="what_s_new_image">Obraz \"co nowego\"</string>
 
     <string name="store_short_dev_desc">
-Wersja Nextcloud Dev jest wersją rozwojową, można ją zainstalować równolegle.</string>
+Wersja Lawless Dev jest wersją rozwojową, można ją zainstalować równolegle.</string>
     <string name="prefs_category_dev">Rozwojowa</string>
     <string name="dev_version_no_new_version_available">Brak nowej wersji</string>
     <string name="version_dev_download">Pobierz</string>

@@ -78,7 +78,7 @@
     <string name="uploader_error_message_read_permission_not_granted">%1$s ei saa lukea vastaanotettua tiedostoa</string>
     <string name="uploader_error_message_source_file_not_found">Lähetykseen valittua tiedostoa ei löytynyt. Varmista, että tiedosto on olemassa.</string>
     <string name="uploader_upload_files_behaviour">Lähetys asetus:</string>
-    <string name="uploader_upload_files_behaviour_move_to_nextcloud_folder">Siirrä tiedosto Nextcloud kansioon</string>
+    <string name="uploader_upload_files_behaviour_move_to_nextcloud_folder">Siirrä tiedosto Lawless kansioon</string>
     <string name="uploader_upload_files_behaviour_only_upload">Pidä tiedosto lähdekansiossa</string>
     <string name="uploader_upload_files_behaviour_upload_and_delete_from_source">Poista tiedosto lähdekansiosta</string>
     <string name="file_list_seconds_ago">sekuntia sitten</string>
