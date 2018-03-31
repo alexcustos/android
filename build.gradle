@@ -89,17 +89,17 @@ android {
         productFlavors {
             // used for f-droid
             generic {
-                applicationId 'com.nextcloud.client'
+                applicationId 'cloud.lawless.client'
                 dimension "default"
             }
 
             gplay {
-                applicationId 'com.nextcloud.client'
+                applicationId 'cloud.lawless.client'
                 dimension "default"
             }
 
             versionDev {
-                applicationId "com.nextcloud.android.beta"
+                applicationId "cloud.lawless.android.beta"
                 dimension "default"
                 versionCode 20180131
                 versionName "20180131"

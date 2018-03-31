@@ -412,7 +412,7 @@ public class Preferences extends PreferenceActivity
 
                         String recommendSubject = String.format(getString(R.string.recommend_subject), appName);
                         String recommendText = String.format(getString(R.string.recommend_text),
-                                appName, downloadUrls);
+                                appName, downloadUrlGooglePlayStore);
 
                         intent.putExtra(Intent.EXTRA_SUBJECT, recommendSubject);
                         intent.putExtra(Intent.EXTRA_TEXT, recommendText);
